@@ -16,6 +16,10 @@ return -- add pyright to lspconfig
             { "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
           },
           root_dir = function(fname)
+            -- Ensure fname is a string (could be a buffer number)
+            if type(fname) ~= "string" then
+              fname = vim.api.nvim_buf_get_name(fname)
+            end
             return require("lspconfig.util").root_pattern(
               "Makefile",
               "configure.ac",
